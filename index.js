@@ -1,22 +1,12 @@
-const {connectDB}=require("./db/connection")
-const express = require('express');
-
-
 const dotenv = require('dotenv');
-dotenv.config()
-const PORT = process.env.PORT;
+dotenv.config();
+const { app } = require('./src/app')
+const port = process.env.PORT || 3000;
+const { connectDB } = require('./db/connection');
 
-const app = express();
-
-
-
-app.get("/user-data", (req,res)=>{
-    res.send("Hello to backend world!")
-})
-
-connectDB().then(()=>{
-app.listen(PORT,()=>{
-    console.log(`Server is listening on ${PORT}...`);
-    
-})
-})
+connectDB().then(() => {
+    console.log('Database connected, starting server...');
+    app.listen(port, () => {
+        console.log(`Server is listening on port ${port}...`);
+    });
+});
